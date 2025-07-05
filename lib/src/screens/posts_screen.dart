@@ -48,18 +48,14 @@ class _PostsScreenState extends State<PostsScreen> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No posts found'));
           }
-
+          // snapshot.data List<Post> [1,2,3,4,5]
           return ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
-              final post = snapshot.data![index];
+              final currentPost = snapshot.data![index];
               return PostCard(
-                post: post,
-                onTap: () {
-                  // Navigate to post detail
-                  // Navigator.push(...)
-                },
+                post: currentPost,
               );
             },
           );
