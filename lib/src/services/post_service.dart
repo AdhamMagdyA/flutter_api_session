@@ -2,24 +2,44 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/post.dart';
 
-
 class PostService {
-
   final http.Client client;
 
-  PostService({http.Client? client})
-      : client = client ?? http.Client();
+  PostService({http.Client? client}) : client = client ?? http.Client();
 
   Future<List<Post>> getPosts() async {
-    final response = await client.get(Uri.parse("https://jsonplaceholder.typicode.com/posts"));
-    if(response.statusCode == 200){
+    final response = await client.get(
+      Uri.parse("https://jsonplaceholder.typicode.com/posts"),
+    );
+    if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       return data.map((json) => Post.fromJson(json)).toList();
-    }else{
+    } else {
       throw Exception("Failed to load posts");
     }
   }
-}
 
-// try
-// catch
+  Future<void> deletePost(int id) async {
+    final response = await client.delete(
+      Uri.parse("https://jsonplaceholder.typicode.com/posts/$id"),
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print("delete post successfully $id");
+    } else {
+      throw Exception("Failed to delete post");
+    }
+  }
+
+  Future<void> updatePost(Post post) async {
+    final response = await client.put(
+      Uri.parse("https://jsonplaceholder.typicode.com/posts/${post.id}"),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(post.toJson()),
+    );
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print("update post successfully $post");
+    } else {
+      throw Exception("Failed to update post");
+    }
+  }
+}

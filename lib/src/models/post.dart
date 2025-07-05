@@ -32,5 +32,9 @@ class Post{
       'body': body,
     };
   }
+
+  String toString(){
+    return "$id - $title \n$body";
+  }
   
 }

@@ -1,3 +1,4 @@
+import 'package:api_project/src/services/post_service.dart';
 import 'package:flutter/material.dart';
 import '../models/post.dart';
 
@@ -46,7 +47,7 @@ class PostCard extends StatelessWidget {
                     icon: const Icon(Icons.edit_outlined),
                     tooltip: 'Update',
                     onPressed: () {
-                      // TODO: Implement update functionality using the delete service
+                      _showUpdatePostDialog(context);
                     },
                   ),
                   const Spacer(),
@@ -55,8 +56,11 @@ class PostCard extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.delete_outline),
                     tooltip: 'Delete',
-                    onPressed: () {
-                      // TODO: Implement delete functionality using the delete service
+                    onPressed: () async {
+                      await PostService().deletePost(post.id);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("post ${post.id} deleted successfully"))
+                      );
                     },
                   ),
                 ],
@@ -139,5 +143,46 @@ class PostCard extends StatelessWidget {
         ),
       ),
     ];
+  }
+
+  void _showUpdatePostDialog(BuildContext context) {
+    final titleController = TextEditingController(text: post.title);
+    final bodyController = TextEditingController(text: post.body);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Update Post'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Title'),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: bodyController,
+              decoration: const InputDecoration(labelText: 'Body'),
+              maxLines: 3,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final updatedPost = Post(id:post.id, userId: post.userId, body: bodyController.text, title: titleController.text);
+              await PostService().updatePost(updatedPost);
+              Navigator.pop(context);
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
   }
 }
