@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:api_project/src/services/post_service.dart';
 import 'package:flutter/material.dart';
 import '../models/post.dart';
@@ -9,12 +11,12 @@ class PostCard extends StatelessWidget {
   final bool showUserInfo;
 
   const PostCard({
-    Key? key,
+    super.key,
     required this.post,
     this.onTap,
     this.showFullContent = false,
     this.showUserInfo = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

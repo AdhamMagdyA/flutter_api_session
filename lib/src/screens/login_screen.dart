@@ -1,10 +1,12 @@
+// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api
+
 import 'package:api_project/src/screens/posts_screen.dart';
 import 'package:api_project/src/services/auth.dart';
 import 'package:flutter/material.dart';
 
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -41,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () async {
                 try{
                   final authservice = AuthService();
-                  final response = await authservice.login(
+                  await authservice.login(
                     usernameController.text,
                     passwordController.text,
                   );
@@ -50,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     MaterialPageRoute(builder: (context) => const PostsScreen())
                   );
                 }catch(error){
-                  print(error);
+                  debugPrint(error.toString());
                 }
               },
               child: Text("Login"),

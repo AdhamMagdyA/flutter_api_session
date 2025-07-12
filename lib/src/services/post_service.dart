@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import '../models/post.dart';
 
@@ -24,7 +25,7 @@ class PostService {
       Uri.parse("https://jsonplaceholder.typicode.com/posts/$id"),
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print("delete post successfully $id");
+      debugPrint("delete post successfully $id");
     } else {
       throw Exception("Failed to delete post");
     }
@@ -37,7 +38,7 @@ class PostService {
       body: json.encode(post.toJson()),
     );
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      print("update post successfully $post");
+      debugPrint("update post successfully $post");
     } else {
       throw Exception("Failed to update post");
     }

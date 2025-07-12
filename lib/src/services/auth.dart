@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ class AuthService {
       headers: {"Content-Type": "application/json"},
       body: json.encode({"username": username, "password": password}),
     );
-    print(response.body);
+    debugPrint(response.body);
     if(response.statusCode >= 200 && response.statusCode < 300) {
       // store user info (token) into shared prefs
       final SharedPreferences prefs = await SharedPreferences.getInstance();

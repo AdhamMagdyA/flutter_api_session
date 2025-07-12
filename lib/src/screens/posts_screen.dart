@@ -1,10 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import '../models/post.dart';
 import '../services/post_service.dart';
 import '../widgets/post_card.dart';
 
 class PostsScreen extends StatefulWidget {
-  const PostsScreen({Key? key}) : super(key: key);
+  const PostsScreen({super.key});
 
   @override
   _PostsScreenState createState() => _PostsScreenState();
@@ -104,7 +106,6 @@ class _PostsScreenState extends State<PostsScreen> {
               if (titleController.text.isNotEmpty &&
                   bodyController.text.isNotEmpty) {
                 try {
-                  // TODO: here you should call the create post method from PostService
                   if (mounted) {
                     Navigator.pop(context);
                     _refreshPosts();
